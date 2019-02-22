@@ -99,22 +99,22 @@ char * lookupValue(kvarray_t * pairs, const char * key) {
 }
 
 
-int main(int argc, char ** argv){
-  if (argc != 3){
-    printf("Wrong input\n");
-    return EXIT_FAILURE;
-  }
-  char * fName = argv[1];
-  char * input_value = argv[2];
-  kvarray_t * kva = readKVs(fName);
-  if (NULL == kva){
-    return EXIT_FAILURE;
-  }
-  printf("%s is show as below:\n", fName);
-  printKVs(kva);
-  printf("look for %s:\n", input_value);
-  char * result = lookupValue(kva, input_value);
-  printf("found %s \n", result);
+// int main(int argc, char ** argv){
+//   if (argc != 3){
+//     printf("Wrong input\n");
+//     return EXIT_FAILURE;
+//   }
+//   char * fName = argv[1];
+//   char * input_value = argv[2];
+//   kvarray_t * kva = readKVs(fName);
+//   if (NULL == kva){
+//     return EXIT_FAILURE;
+//   }
+//   printf("%s is show as below:\n", fName);
+//   printKVs(kva);
+//   printf("look for %s:\n", input_value);
+//   char * result = lookupValue(kva, input_value);
+//   printf("found %s \n", result);
 
-  freeKVs(kva);
-}
+//   freeKVs(kva);
+// }
