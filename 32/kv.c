@@ -52,6 +52,7 @@ kvarray_t * readKVs(const char * fname) {
     kva->kvs[kva->kv_num - 1].key = key;
     kva->kvs[kva->kv_num - 1].value = value;
   }
+  free(line);
   
   /// 3rd, cloes the file.
   if (fclose(f) != 0){
