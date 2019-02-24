@@ -4,3 +4,6 @@ orange=orange
 grapes=purple
 carrot=orange
 eggplant=purple
+app=kind=dkk  
+=9909
+celphone

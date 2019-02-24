@@ -7,6 +7,44 @@
 
 
 
+/**
+ * @brief 
+ * 
+ * @param line - in
+ * @param key - out
+ * @param value - out
+ * @return int - 0 means successful
+ */
+int BreakDownLine(char * line, char ** key, char ** value){
+  if (line == NULL){
+    return -1;
+  }
+  int len;
+  int key_num = 0;
+  int value_num = 0;
+  len = strlen(line);
+  for (int i=0; i<len; i++){
+    if (line[i] != '='){
+      key_num++;
+    }
+    else {
+      break;
+    }
+  }
+  if (key_num == 0){
+    return -1;
+  }
+  value_num = len - key_num - 1;
+  *key = malloc(sizeof(** key) * (key_num + 1));
+  *value = malloc(sizeof(** value) * (value_num + 1));
+  strncpy(*key, line, key_num);
+  *key[key_num] = '\0';
+  strncpy(*value, line + key_num + 1, value_num);
+  *value[value_num] = '\0';
+  
+  return 0;
+}
+
 kvarray_t * readKVs(const char * fname) {
   //WRITE ME
   /// first, open the file
@@ -23,34 +61,18 @@ kvarray_t * readKVs(const char * fname) {
   size_t linecap = 0;
   ssize_t linelen;
   while ((linelen = getline(&line, &linecap, f)) > 0){
+    
+    /// caculate how many characters of key and value 
+    char ** key_p = NULL;
+    char ** value_p = NULL;
+    if (BreakDownLine(line, key_p, value_p) != 0){
+      continue;
+    }
     /// allocate for k, v, kv_pair and kv_array;
     kva->kv_num++;
     kva->kvs = realloc(kva->kvs, sizeof(*(kva->kvs)) * kva->kv_num);
-    /// caculate how many characters of key and value 
-    int size_key = 0;
-    int size_value =0;
-    int equal_flag = 0;
-    for (int i=0; i<linelen; i++){
-      if (line[i] != '='){
-        size_key++;
-      }
-      else {
-        equal_flag = 1;
-        break;
-      }
-    }
-    if (equal_flag == 0){
-      continue;
-    }
-    size_value = linelen - size_key - 2;
-    char * key = malloc(sizeof(* key) * (size_key + 1));
-    char * value = malloc(sizeof(* value) * (size_value + 1));
-    strncpy(key, line, size_key);
-    key[size_key] = '\0';
-    strncpy(value, line + size_key + 1, size_value);
-    value[size_value] = '\0';
-    kva->kvs[kva->kv_num - 1].key = key;
-    kva->kvs[kva->kv_num - 1].value = value;
+    kva->kvs[kva->kv_num - 1].key = *key_p;
+    kva->kvs[kva->kv_num - 1].value = *value_p;
   }
   free(line);
   
