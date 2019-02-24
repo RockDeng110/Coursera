@@ -15,7 +15,8 @@
  * @param value - out
  * @return int - 0 means successful
  */
-int BreakDownLine(char * line, char ** key, char ** value){
+
+int BreakDownLine(char * line, char ** key_p, char ** value_p){
   if (line == NULL){
     return -1;
   }
@@ -35,12 +36,12 @@ int BreakDownLine(char * line, char ** key, char ** value){
     return -1;
   }
   value_num = len - key_num - 1;
-  *key = malloc(sizeof(** key) * (key_num + 1));
-  *value = malloc(sizeof(** value) * (value_num + 1));
-  strncpy(*key, line, key_num);
-  *key[key_num] = '\0';
-  strncpy(*value, line + key_num + 1, value_num);
-  *value[value_num] = '\0';
+  *key_p = malloc(sizeof(** key_p) * (key_num + 1));
+  *value_p = malloc(sizeof(** value_p) * (value_num + 1));
+  strncpy(*key_p, line, key_num);
+  *key_p[key_num] = '\0';
+  strncpy(*value_p, line + key_num + 1, value_num);
+  *value_p[value_num] = '\0';
   
   return 0;
 }
