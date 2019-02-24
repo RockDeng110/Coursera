@@ -41,9 +41,9 @@ int BreakDownLine(char * line, char ** key_p, char ** value_p){
   key = malloc(sizeof(*key) * (key_num + 1));
   value = malloc(sizeof(*value) * (value_num + 1));
   strncpy(key, line, key_num);
-  *key_p[key_num] = '\0';
+  key[key_num] = '\0';
   strncpy(value, line + key_num + 1, value_num);
-  *value_p[value_num] = '\0';
+  value[value_num] = '\0';
   *key_p = key;
   *value_p = value;
   
