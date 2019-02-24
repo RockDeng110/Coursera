@@ -23,6 +23,8 @@ int BreakDownLine(char * line, char ** key_p, char ** value_p){
   int len;
   int key_num = 0;
   int value_num = 0;
+  char * key;
+  char * value;
   len = strlen(line);
   for (int i=0; i<len; i++){
     if (line[i] != '='){
@@ -36,12 +38,14 @@ int BreakDownLine(char * line, char ** key_p, char ** value_p){
     return -1;
   }
   value_num = len - key_num - 1;
-  *key_p = malloc(sizeof(** key_p) * (key_num + 1));
-  *value_p = malloc(sizeof(** value_p) * (value_num + 1));
-  strncpy(*key_p, line, key_num);
+  key = malloc(sizeof(*key) * (key_num + 1));
+  value = malloc(sizeof(*value) * (value_num + 1));
+  strncpy(key, line, key_num);
   *key_p[key_num] = '\0';
-  strncpy(*value_p, line + key_num + 1, value_num);
+  strncpy(value, line + key_num + 1, value_num);
   *value_p[value_num] = '\0';
+  *key_p = key;
+  *value_p = value;
   
   return 0;
 }
