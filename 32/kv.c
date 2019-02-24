@@ -62,22 +62,23 @@ kvarray_t * readKVs(const char * fname) {
   kvarray_t * kva =  malloc(sizeof(*kva));
   kva->kv_num = 0;
   kva->kvs = NULL;
+  char * key;
+  char * value;
   char * line = NULL;
   size_t linecap = 0;
   ssize_t linelen;
   while ((linelen = getline(&line, &linecap, f)) > 0){
     
     /// caculate how many characters of key and value 
-    char ** key_p = NULL;
-    char ** value_p = NULL;
-    if (BreakDownLine(line, key_p, value_p) != 0){
+    
+    if (BreakDownLine(line, &key, &value) != 0){
       continue;
     }
     /// allocate for k, v, kv_pair and kv_array;
     kva->kv_num++;
     kva->kvs = realloc(kva->kvs, sizeof(*(kva->kvs)) * kva->kv_num);
-    kva->kvs[kva->kv_num - 1].key = *key_p;
-    kva->kvs[kva->kv_num - 1].value = *value_p;
+    kva->kvs[kva->kv_num - 1].key = key;
+    kva->kvs[kva->kv_num - 1].value = value;
   }
   free(line);
   
