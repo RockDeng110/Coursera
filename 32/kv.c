@@ -20,6 +20,7 @@ int BreakDownLine(char * line, char ** key_p, char ** value_p){
   if (line == NULL){
     return -1;
   }
+  int equal_flag = 0;
   int len;
   int key_num = 0;
   int value_num = 0;
@@ -31,13 +32,17 @@ int BreakDownLine(char * line, char ** key_p, char ** value_p){
       key_num++;
     }
     else {
+      equal_flag = 1;
       break;
     }
+  }
+  if (equal_flag == 0){
+    return -1;
   }
   if (key_num == 0){
     return -1;
   }
-  value_num = len - key_num - 1;
+  value_num = len - key_num - 2;
   key = malloc(sizeof(*key) * (key_num + 1));
   value = malloc(sizeof(*value) * (value_num + 1));
   strncpy(key, line, key_num);

@@ -7,3 +7,4 @@ eggplant=purple
 app=kind=dkk  
 =9909
 celphone
+rock=deng
