@@ -42,7 +42,9 @@ int BreakDownLine(char * line, char ** key_p, char ** value_p){
   if (key_num == 0){
     return -1;
   }
+
   if (line[len-1] == '\n'){
+
     value_num = len - key_num - 2;
   }
   else {
