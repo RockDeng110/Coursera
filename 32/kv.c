@@ -121,19 +121,23 @@ void freeKVs(kvarray_t * pairs) {
 }
 
 void printKVs(kvarray_t * pairs) {
-  assert(pairs != NULL);
   //WRITE ME
-  for (int i=0; i<pairs->kv_num; i++){
-    printf("key = '%s' value = '%s'\n", pairs->kvs[i].key, pairs->kvs[i].value);
+  if (pairs != NULL){
+    for (int i=0; i<pairs->kv_num; i++){
+      printf("key = '%s' value = '%s'\n", pairs->kvs[i].key, pairs->kvs[i].value);
+    }
   }
+  
 }
 
 char * lookupValue(kvarray_t * pairs, const char * key) {
-  assert(pairs != NULL && key != NULL);
+  
   //WRITE ME
-  for (int i=0; i<pairs->kv_num; i++){
-    if (0 == strcmp(pairs->kvs[i].key, key)){
-      return pairs->kvs[i].key;
+  if (pairs != NULL && key != NULL){
+    for (int i=0; i<pairs->kv_num; i++){
+      if (0 == strcmp(pairs->kvs[i].key, key)){
+        return pairs->kvs[i].key;
+      }
     }
   }
 
