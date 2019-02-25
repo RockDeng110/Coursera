@@ -42,7 +42,13 @@ int BreakDownLine(char * line, char ** key_p, char ** value_p){
   if (key_num == 0){
     return -1;
   }
-  value_num = len - key_num - 2;
+  if (line[len-1] == '\n'){
+    value_num = len - key_num - 2;
+  }
+  else {
+    value_num = len - key_num - 1;
+  }
+  
   key = malloc(sizeof(*key) * (key_num + 1));
   value = malloc(sizeof(*value) * (value_num + 1));
   strncpy(key, line, key_num);
