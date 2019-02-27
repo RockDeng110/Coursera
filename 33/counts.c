@@ -37,7 +37,7 @@ void addCount(counts_t * c, const char * name) {
     }
     else{
       /// relloc c->counts_arr and add a count
-      c->counts_arr = realloc(c->counts_arr, sizeof(*(c->counts_arr)) * c->size);
+      c->counts_arr = realloc(c->counts_arr, sizeof(*(c->counts_arr)) * (c->size + 1);
       c->counts_arr[c->size].count = 1;
       if (name == NULL){
         c->counts_arr[c->size].name = malloc(11);
