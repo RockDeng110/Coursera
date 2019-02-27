@@ -48,10 +48,8 @@ void addCount(counts_t * c, const char * name) {
         strcpy(c->counts_arr[c->size].name, name);
       }
       
-      
+      c->size++;
     }
-
-    c->size++;
   }
 }
 
