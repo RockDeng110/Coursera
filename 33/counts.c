@@ -59,14 +59,14 @@ void printCounts(counts_t * c, FILE * outFile) {
   if (c != NULL && outFile != NULL){
     for (int i=0; i<c->size; i++){
       if (strcmp(c->counts_arr[i].name, unknown) != 0){
-        fprintf(outFile, "%s = %d\n", c->counts_arr[i].name, c->counts_arr[i].count);
+        fprintf(outFile, "%s= %d\n", c->counts_arr[i].name, c->counts_arr[i].count);
       }
       else {
         unknown_index = i;
       }
     }
     if (unknown_index >= 0){
-      fprintf(outFile, "%s = %d\n", c->counts_arr[unknown_index].name, c->counts_arr[unknown_index].count);
+      fprintf(outFile, "%s= %d\n", c->counts_arr[unknown_index].name, c->counts_arr[unknown_index].count);
     }
   }
 }
