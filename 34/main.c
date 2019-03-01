@@ -24,6 +24,7 @@ int main(int argc, char ** argv) {
     printf("ERROR: %s.\n", strerror(errno));
     return EXIT_FAILURE;
   }
+  printKVs(kv);
  //count from 2 to argc (call the number you count i)
   for (int i=2; i<argc; i++){
     //count the values that appear in the file named by argv[i], using kv as the key/value pair
@@ -34,11 +35,28 @@ int main(int argc, char ** argv) {
       return EXIT_FAILURE;
     }
     counts_t * c = createCounts();
+    char * key = NULL;
     char * line = NULL;
     size_t linecap = 0;
     ssize_t linelen;
     while ((linelen = getline(&line, &linecap, fi)) > 0){
-      addCount(c, line);
+      printf(" Get key in line: ");
+      if (line[linelen -1] == '\n'){
+        key = malloc(sizeof(* key) * (linelen - 1));
+        strncpy(key, line, (linelen - 1));
+      }
+      else{
+        key = malloc(sizeof(* key) * (linelen));
+        strncpy(key, line, (linelen));
+      }
+      printf("  key = %s\n", key);
+      char * value = lookupValue(kv, key);
+      if (value != NULL){
+        addCount(c, value);
+      }
+      else {
+        addCount(c, NULL);
+      }
     }
     free(line);
 
@@ -48,6 +66,7 @@ int main(int argc, char ** argv) {
     //open the file named by outName (call that f)
     FILE * f = fopen(outName, "w");
     //print the counts from c into the FILE f
+    printCounts(c, stdout);
     printCounts(c, f);
     //close f
     fclose(f);

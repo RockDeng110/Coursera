@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <assert.h>
 #include "kv.h"
+#include <assert.h>
 
 
 
 /**
- * @brief 
- * 
+ * @brief
+ *
  * @param line - in
  * @param key - out
  * @param value - out
@@ -50,7 +50,7 @@ int BreakDownLine(char * line, char ** key_p, char ** value_p){
   else {
     value_num = len - key_num - 1;
   }
-  
+
   key = malloc(sizeof(*key) * (key_num + 1));
   value = malloc(sizeof(*value) * (value_num + 1));
   strncpy(key, line, key_num);
@@ -59,9 +59,10 @@ int BreakDownLine(char * line, char ** key_p, char ** value_p){
   value[value_num] = '\0';
   *key_p = key;
   *value_p = value;
-  
+
   return 0;
 }
+
 
 kvarray_t * readKVs(const char * fname) {
   //WRITE ME
@@ -81,9 +82,6 @@ kvarray_t * readKVs(const char * fname) {
   size_t linecap = 0;
   ssize_t linelen;
   while ((linelen = getline(&line, &linecap, f)) > 0){
-    
-    /// caculate how many characters of key and value 
-    
     if (BreakDownLine(line, &key, &value) != 0){
       continue;
     }
@@ -94,7 +92,7 @@ kvarray_t * readKVs(const char * fname) {
     kva->kvs[kva->kv_num - 1].value = value;
   }
   free(line);
-  
+
   /// 3rd, cloes the file.
   if (fclose(f) != 0){
     printf("ERROR: %s\n", strerror(errno));
@@ -104,6 +102,8 @@ kvarray_t * readKVs(const char * fname) {
   return kva;
 
 }
+
+
 
 void freeKVs(kvarray_t * pairs) {
   //WRITE ME
@@ -127,11 +127,9 @@ void printKVs(kvarray_t * pairs) {
       printf("key = '%s' value = '%s'\n", pairs->kvs[i].key, pairs->kvs[i].value);
     }
   }
-  
 }
 
 char * lookupValue(kvarray_t * pairs, const char * key) {
-  
   //WRITE ME
   if (pairs != NULL && key != NULL){
     for (int i=0; i<pairs->kv_num; i++){
@@ -143,29 +141,4 @@ char * lookupValue(kvarray_t * pairs, const char * key) {
 
   return NULL;
 }
-
-
-// int main(int argc, char ** argv){
-//   if (argc != 3){
-//     printf("Wrong input\n");
-//     return EXIT_FAILURE;
-//   }
-//   char * fName = argv[1];
-//   char * input_value = argv[2];
-//   kvarray_t * kva = readKVs(fName);
-//   if (NULL == kva){
-//     return EXIT_FAILURE;
-//   }
-//   printf("%s is show as below:\n", fName);
-//   printKVs(kva);
-//   printf("look for %s:\n", input_value);
-//   char * result = lookupValue(kva, input_value);
-//   printf("found %s \n", result);
-
-//   freeKVs(kva);
-// }
-
-
-
-
 

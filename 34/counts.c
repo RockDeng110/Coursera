@@ -3,6 +3,8 @@
 #include <string.h>
 #include "counts.h"
 
+
+
 char * unknown = "<unknown> ";
 
 counts_t * createCounts(void) {
@@ -47,7 +49,7 @@ void addCount(counts_t * c, const char * name) {
         c->counts_arr[c->size].name = malloc(sizeof(name));
         strcpy(c->counts_arr[c->size].name, name);
       }
-      
+
       c->size++;
     }
   }
@@ -58,6 +60,7 @@ void printCounts(counts_t * c, FILE * outFile) {
   int unknown_index = -1;
   if (c != NULL && outFile != NULL){
     for (int i=0; i<c->size; i++){
+
       if (strcmp(c->counts_arr[i].name, unknown) != 0){
         fprintf(outFile, "%s: %d\n", c->counts_arr[i].name, c->counts_arr[i].count);
       }
@@ -81,3 +84,4 @@ void freeCounts(counts_t * c) {
     free(c);
   }
 }
+
