@@ -3,10 +3,10 @@
 #include <string.h>
 #include "counts.h"
 
-#define NUM_TESTS 12
+#define NUM_TESTS 10
 int main(void) {
-  char * testData[NUM_TESTS] = {"apple", "banana", NULL,"apple",
-                                "frog","sword","bear",NULL,
+  char * testData[NUM_TESTS] = {"apple", "banana","apple",
+                                "frog","sword","bear",
                                 "frog","apple", "zebra", "knight"};
   counts_t * testCounts= createCounts();
   for(int i =0; i < NUM_TESTS; i++) {
