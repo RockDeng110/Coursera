@@ -4,3 +4,4 @@
 char * computeOutputFileName(const char * inputName);
 
 #endif
+

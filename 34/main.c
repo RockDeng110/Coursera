@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
+#include <assert.h>
 #include "kv.h"
 #include "counts.h"
 #include "outname.h"
@@ -26,7 +28,7 @@ int main(int argc, char ** argv) {
   for (int i=2; i<argc; i++){
     //count the values that appear in the file named by argv[i], using kv as the key/value pair
     //   (call this result c)
-    FILE * fi = fopen(argv[i], 'r');
+    FILE * fi = fopen(argv[i], "r");
     if (fi == NULL){
       printf("ERROR: %s.\n", strerror(errno));
       return EXIT_FAILURE;
@@ -44,9 +46,9 @@ int main(int argc, char ** argv) {
     char * outName = computeOutputFileName(argv[i]);
 
     //open the file named by outName (call that f)
-    FILE * f = fopen(outName, 'r');
+    FILE * f = fopen(outName, "w");
     //print the counts from c into the FILE f
-    printCounts(c, outName);
+    printCounts(c, f);
     //close f
     fclose(f);
     //free the memory for outName and c
@@ -59,3 +61,4 @@ int main(int argc, char ** argv) {
 
   return EXIT_SUCCESS;
 }
+
