@@ -68,6 +68,7 @@ int main(int argc, char ** argv) {
       else {
         addCount(c, NULL);
       }
+      free(key);
     }
     free(line);
 
