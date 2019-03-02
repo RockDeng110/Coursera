@@ -18,7 +18,45 @@
 
 counts_t * countFile(const char * filename, kvarray_t * kvPairs) {
   //WRITE ME
-  return NULL;
+  FILE * fi = fopen(filename, "r");
+    if (fi == NULL){
+      printd("ERROR: %s.\n", strerror(errno));
+      return NULL;
+    }
+    if (kvPairs == NULL){
+      return NULL;
+    }
+
+    counts_t * c = createCounts();
+    char * key = NULL;
+    char * line = NULL;
+    size_t linecap = 0;
+    ssize_t linelen;
+    while ((linelen = getline(&line, &linecap, fi)) > 0){
+      printd(" Get key in line:");
+      if (line[linelen -1] == '\n'){
+        key = malloc(sizeof(* key) * (linelen));
+        strncpy(key, line, (linelen - 1));
+        key[linelen - 1] = '\0';
+      }
+      else{
+        key = malloc(sizeof(* key) * (linelen + 1));
+        strncpy(key, line, (linelen));
+        key[linelen] = '\0';
+      }
+      printd(" key = %s;", key);
+      char * value = lookupValue(kvPairs, key);
+      printd("\n    look for the value = %s\n", value);
+      if (value != NULL){
+        addCount(c, value);
+      }
+      else {
+        addCount(c, NULL);
+      }
+      free(key);
+    }
+    free(line);
+  return c;
 }
 
 int main(int argc, char ** argv) {
@@ -38,40 +76,7 @@ int main(int argc, char ** argv) {
  //count from 2 to argc (call the number you count i)
   for (int i=2; i<argc; i++){
     //count the values that appear in the file named by argv[i], using kv as the key/value pair
-    //   (call this result c)
-    FILE * fi = fopen(argv[i], "r");
-    if (fi == NULL){
-      printf("ERROR: %s.\n", strerror(errno));
-      return EXIT_FAILURE;
-    }
-    counts_t * c = createCounts();
-    char * key = NULL;
-    char * line = NULL;
-    size_t linecap = 0;
-    ssize_t linelen;
-    while ((linelen = getline(&line, &linecap, fi)) > 0){
-      printd(" Get key in line:");
-      if (line[linelen -1] == '\n'){
-        key = malloc(sizeof(* key) * (linelen - 1));
-        strncpy(key, line, (linelen - 1));
-      }
-      else{
-        key = malloc(sizeof(* key) * (linelen));
-        strncpy(key, line, (linelen));
-      }
-      printd(" key = %s;", key);
-      char * value = lookupValue(kv, key);
-      printd("\n    look for the value = %s\n", value);
-      if (value != NULL){
-        addCount(c, value);
-      }
-      else {
-        addCount(c, NULL);
-      }
-      free(key);
-    }
-    free(line);
-
+    counts_t * c = countFile(argv[i], kv);
     //compute the output file name from argv[i] (call this outName)
     char * outName = computeOutputFileName(argv[i]);
 
