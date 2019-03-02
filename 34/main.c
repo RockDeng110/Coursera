@@ -56,6 +56,7 @@ counts_t * countFile(const char * filename, kvarray_t * kvPairs) {
       free(key);
     }
     free(line);
+    fclose(fi);
   return c;
 }
 
