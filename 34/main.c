@@ -7,6 +7,8 @@
 #include "counts.h"
 #include "outname.h"
 
+
+#define Block_PRINTD
 #ifdef BLOCK_PRINTD
 #define pritnd(...)
 #else
@@ -63,13 +65,13 @@ counts_t * countFile(const char * filename, kvarray_t * kvPairs) {
 int main(int argc, char ** argv) {
   //WRITE ME (plus add appropriate error checking!)
   if (argc < 3){
-    printf("Please input: command kv_file count_file1 count_file2 ...");
+    printd("Please input: command kv_file count_file1 count_file2 ...");
     return EXIT_FAILURE;
   }
  //read the key/value pairs from the file named by argv[1] (call the result kv)
   kvarray_t * kv =  readKVs(argv[1]);
   if (kv == NULL){
-    printf("ERROR: %s.\n", strerror(errno));
+    printd("ERROR: %s.\n", strerror(errno));
     return EXIT_FAILURE;
   }
   printd("Print kvs:\n");
