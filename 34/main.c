@@ -7,6 +7,15 @@
 #include "counts.h"
 #include "outname.h"
 
+#ifdef BLOCK_PRINTD
+#define pritnd(...)
+#else
+#define printd printf
+#endif
+
+
+
+
 counts_t * countFile(const char * filename, kvarray_t * kvPairs) {
   //WRITE ME
   return NULL;
@@ -24,6 +33,7 @@ int main(int argc, char ** argv) {
     printf("ERROR: %s.\n", strerror(errno));
     return EXIT_FAILURE;
   }
+  printd("Print kvs:\n");
   printKVs(kv);
  //count from 2 to argc (call the number you count i)
   for (int i=2; i<argc; i++){
@@ -40,7 +50,7 @@ int main(int argc, char ** argv) {
     size_t linecap = 0;
     ssize_t linelen;
     while ((linelen = getline(&line, &linecap, fi)) > 0){
-      printf(" Get key in line: ");
+      printd(" Get key in line:");
       if (line[linelen -1] == '\n'){
         key = malloc(sizeof(* key) * (linelen - 1));
         strncpy(key, line, (linelen - 1));
@@ -49,8 +59,9 @@ int main(int argc, char ** argv) {
         key = malloc(sizeof(* key) * (linelen));
         strncpy(key, line, (linelen));
       }
-      printf("  key = %s\n", key);
+      printd(" key = %s;", key);
       char * value = lookupValue(kv, key);
+      printd("\n    look for the value = %s\n", value);
       if (value != NULL){
         addCount(c, value);
       }
