@@ -22,7 +22,7 @@ void addCount(counts_t * c, const char * name) {
   if (c != NULL){
     for (i=0; i<c->size; i++){
       if (name == NULL){
-        if (strcmp(c->counts_arr[i].name, unknown) == 0){
+        if (strcmp((c->counts_arr)[i].name, unknown) == 0){
           has_named = 1;
           break;
         }
