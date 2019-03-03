@@ -69,7 +69,7 @@ void printCounts(counts_t * c, FILE * outFile) {
       }
     }
     if (unknown_index >= 0){
-      fprintf(outFile, "%s: %d\n", c->counts_arr[unknown_index].name, c->counts_arr[unknown_index].count);
+      fprintf(outFile, "%s: %d", c->counts_arr[unknown_index].name, c->counts_arr[unknown_index].count);
     }
   }
 }

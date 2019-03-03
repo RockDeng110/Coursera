@@ -8,9 +8,9 @@
 #include "outname.h"
 
 
-#define Block_PRINTD
+#define BLOCK_PRINTD
 #ifdef BLOCK_PRINTD
-#define pritnd(...)
+#define printd(...)
 #else
 #define printd printf
 #endif
@@ -80,6 +80,10 @@ int main(int argc, char ** argv) {
   for (int i=2; i<argc; i++){
     //count the values that appear in the file named by argv[i], using kv as the key/value pair
     counts_t * c = countFile(argv[i], kv);
+    if (c == NULL){
+      return EXIT_FAILURE;
+    }
+    
     //compute the output file name from argv[i] (call this outName)
     char * outName = computeOutputFileName(argv[i]);
 
