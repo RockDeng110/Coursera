@@ -46,7 +46,7 @@ void addCount(counts_t * c, const char * name) {
         strcpy(c->counts_arr[c->size].name, unknown);
       }
       else {
-        c->counts_arr[c->size].name = malloc(sizeof(name));
+        c->counts_arr[c->size].name = malloc(strlen(name) + 1);
         strcpy(c->counts_arr[c->size].name, name);
       }
 
