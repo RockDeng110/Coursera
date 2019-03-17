@@ -75,8 +75,8 @@ void add_card_to(deck_t * deck, card_t c){
     // printf("x = %d", x);
     card_t * card = malloc(x);
     memcpy(card, &c, x);
-
-    deck->cards = realloc(deck->cards, ++(deck->n_cards));
+    deck->n_cards++;
+    deck->cards = realloc(deck->cards, (deck->n_cards) * sizeof(deck->cards));
     deck->cards[deck->n_cards -1] = card;
   }
 }
@@ -120,12 +120,22 @@ deck_t * build_remaining_deck(deck_t ** hands, size_t n_hands){
   has_cards.n_cards = 0;
   has_cards.cards = NULL;
   for (int i=0; i<n_hands; i++){
+    printf(" hands = %d\n", i);
+    print_hand(hands[i]);
+    printf("\n");
     for (int j=0; j<hands[i]->n_cards; j++){
       /// if this card is not a empty card, add it to a deck.
       if ((hands[i]->cards[j]->value != 0) && (hands[i]->cards[j]->suit != 0)){
         add_card_to(&has_cards, *(hands[i]->cards[j]));
+        printf(" add card to has_cards: card = ");
+        print_card(*(hands[i]->cards[j]));
+        printf("\n");
       }
+      // printf(" i = %d; j = %d", i, j);
     }
+    printf("has cards:\n");
+    print_hand(&has_cards);
+    printf("\n");
   }
   /// create the remaining deck.
   deck_t * p_deck;
