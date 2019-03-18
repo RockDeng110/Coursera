@@ -23,28 +23,28 @@ int main(void){
         // print_card(*(d.cards[i]));
         // printf("\n");
     }
-    printf(" d2: \n");
-    for (int i=14; i<19; i++){
-        c = card_from_num(i);
-        print_card(c);
-        printf("\n");
-        add_card_to(d2_p, c);
-    }
-    deck_t * hands[2];
-    hands[0] = d1_p;
-    hands[1] = d2_p;
-    deck_t * d3_p;
-    d3_p = build_remaining_deck(hands, 2);
+    // printf(" d2: \n");
+    // for (int i=14; i<19; i++){
+    //     c = card_from_num(i);
+    //     print_card(c);
+    //     printf("\n");
+    //     add_card_to(d2_p, c);
+    // }
+    // deck_t * hands[2];
+    // hands[0] = d1_p;
+    // hands[1] = d2_p;
+    // deck_t * d3_p;
+    // d3_p = build_remaining_deck(hands, 2);
     // add_empty_card(&d);
     // for (int i=0; i<3; i++){
     //     print_card(*(d.cards[i]));
     //     printf("\n");
     // }
     printf(" remaining_deck: \n");
-    print_hand(d3_p);
+    // print_hand(d3_p);
     free_deck(d1_p);
-    free_deck(d2_p);
-    free_deck(d3_p);
+    // free_deck(d2_p);
+    // free_deck(d3_p);
     // deck_t d;
     // d.n_cards = 0;
     // d.cards = NULL;
