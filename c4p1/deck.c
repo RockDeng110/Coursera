@@ -143,6 +143,7 @@ deck_t * build_remaining_deck(deck_t ** hands, size_t n_hands){
   /// create the remaining deck.
   deck_t * p_deck;
   p_deck = make_deck_exclude(&has_cards);
+  free(has_cards.cards);
   return p_deck;
   
 }
