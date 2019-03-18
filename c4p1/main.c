@@ -12,8 +12,8 @@ int main(void){
     card_t c;
     d1_p->n_cards = 0;
     d1_p->cards = NULL;
-    d2_p->n_cards = 0;
-    d2_p->cards = NULL;
+    // d2_p->n_cards = 0;
+    // d2_p->cards = NULL;
     printf(" d1_p: \n");
     for (int i=3; i<13; i++){
         c = card_from_num(i);
