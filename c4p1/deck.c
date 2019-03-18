@@ -120,22 +120,25 @@ deck_t * build_remaining_deck(deck_t ** hands, size_t n_hands){
   has_cards.n_cards = 0;
   has_cards.cards = NULL;
   for (int i=0; i<n_hands; i++){
-    printf(" hands = %d\n", i);
-    print_hand(hands[i]);
-    printf("\n");
+    // printf(" hands = %d\n", i);
+    // print_hand(hands[i]);
+    // printf("\n");
     for (int j=0; j<hands[i]->n_cards; j++){
+      // printf(" i = %d; j = %d\n", i, j);
+      // printf(" hands[i]->cards[j]->value = %d, hands[i]->cards[j]->suit = %d,", hands[i]->cards[j]->value, hands[i]->cards[j]->suit);
       /// if this card is not a empty card, add it to a deck.
-      if ((hands[i]->cards[j]->value != 0) && (hands[i]->cards[j]->suit != 0)){
+      if (((hands[i]->cards[j]->value >= 2) &&  (hands[i]->cards[j]->value <= VALUE_ACE))
+          && ((hands[i]->cards[j]->suit >= SPADES) && (hands[i]->cards[j]->suit <= CLUBS))){
         add_card_to(&has_cards, *(hands[i]->cards[j]));
-        printf(" add card to has_cards: card = ");
-        print_card(*(hands[i]->cards[j]));
-        printf("\n");
+        // printf(" add card to has_cards: card = ");
+        // print_card(*(hands[i]->cards[j]));
+        // printf("\n");
       }
-      // printf(" i = %d; j = %d", i, j);
+      
     }
-    printf("has cards:\n");
-    print_hand(&has_cards);
-    printf("\n");
+    // printf("has cards:\n");
+    // print_hand(&has_cards);
+    // printf("\n");
   }
   /// create the remaining deck.
   deck_t * p_deck;
