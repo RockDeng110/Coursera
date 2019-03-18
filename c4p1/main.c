@@ -7,7 +7,7 @@
 
 int main(void){
     deck_t * d1_p = malloc(sizeof(deck_t));
-    deck_t * d2_p = malloc(sizeof(deck_t));
+    // deck_t * d2_p = malloc(sizeof(deck_t));
 
     card_t c;
     d1_p->n_cards = 0;
