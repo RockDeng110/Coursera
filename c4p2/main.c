@@ -2,10 +2,71 @@
 #include "cards.h"
 #include "deck.h"
 #include "eval.h"
+#include "future.h"
 
 #define CARD_MAX_NUM 52
 
 
+int main(void){
+    deck_t * d1_p = malloc(sizeof(deck_t));
+    deck_t * d2_p = malloc(sizeof(deck_t));
+    deck_t * d3_p = malloc(sizeof(deck_t));
+    card_t c;
+    d3_p->n_cards = 0;
+    d3_p->cards = NULL;
+    d1_p->n_cards = 0;
+    d1_p->cards = NULL;
+    d2_p->n_cards = 0;
+    d2_p->cards = NULL;
+    c = card_from_num(11);
+    add_card_to(d1_p, c);
+    c = card_from_num(12);
+    add_card_to(d1_p, c);
+    printf(" hand1:\n");
+    print_hand(d1_p);
+    printf("\n");
+    c = card_from_num(25);
+    add_card_to(d2_p, c);
+    c = card_from_num(26);
+    add_card_to(d2_p, c);
+    printf(" hand2:\n");
+    print_hand(d2_p);
+    printf("\n");
+    c = card_from_num(41);
+    add_card_to(d3_p, c);
+    c = card_from_num(43);
+    add_card_to(d3_p, c);
+    c = card_from_num(44);
+    add_card_to(d3_p, c);
+    printf(" hand3:\n");
+    print_hand(d3_p);
+    printf("\n");
+    add_empty_card(d1_p);
+    add_empty_card(d1_p);    
+    add_empty_card(d2_p);
+    add_empty_card(d2_p);
+
+    future_cards_t fc;
+    fc.decks = NULL;
+    fc.n_decks = 0;
+    add_future_card(&fc, 0, d1_p->cards[2]);
+    add_future_card(&fc, 0, d2_p->cards[2]);
+    add_future_card(&fc, 1, d1_p->cards[3]);
+    add_future_card(&fc, 2, d2_p->cards[3]);
+
+    future_cards_from_deck(d3_p, &fc);
+    printf(" After get future cards from deck:\n");
+    printf(" hand1:\n");
+    print_hand(d1_p);
+    printf("\n");
+
+    printf(" hand2:\n");
+    print_hand(d2_p);
+    printf("\n");
+}
+
+
+#if 0
 extern unsigned * get_match_counts(deck_t * hand);
 void PrintMatchedCounts(unsigned int * counts, int num){
     printf(" Print the matched counts:\n");
@@ -14,7 +75,7 @@ void PrintMatchedCounts(unsigned int * counts, int num){
     }
 }
 
-int main(void){
+int main_cp41(void){
     deck_t * d1_p = malloc(sizeof(deck_t));
     deck_t * d2_p = malloc(sizeof(deck_t));
 
@@ -81,4 +142,4 @@ int main(void){
     // add_card_to(&d, c);
     return 0;
 }
-
+#endif
