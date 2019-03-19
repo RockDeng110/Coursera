@@ -17,7 +17,7 @@
 
 void add_future_card(future_cards_t * fc, size_t index, card_t * ptr){
     if (fc != NULL && ptr != NULL){
-        if (index > fc->n_decks - 1){
+        if (index > fc->n_decks - 1 || fc->n_decks == 0){
             /// realloc more memory
             fc->n_decks = index + 1;
             fc->decks = realloc(fc->decks, sizeof(deck_t) * fc->n_decks );
@@ -49,7 +49,8 @@ void future_cards_from_deck(deck_t * deck, future_cards_t * fc){
     // int count_decks = 0;
     for (int i=0; i<num_move_cards; i++){
         for (int j=0; j<fc->decks[i].n_cards; j++){
-            fc->decks[i].cards[j] = deck->cards[i];
+            fc->decks[i].cards[j]->value = deck->cards[i]->value;
+            fc->decks[i].cards[j]->suit = deck->cards[i]->suit;
         }
     }
 
