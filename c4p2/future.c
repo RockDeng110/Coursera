@@ -23,28 +23,29 @@
 
 void add_future_card(future_cards_t * fc, size_t index, card_t * ptr){
     printf_d("    Add_future_card(): fc->n_decks = %d, index = %d\n", (int)fc->n_decks, (int)index);
-    int last_n_cards = fc->n_decks;
+    
     if (fc != NULL && ptr != NULL){
         if (index > fc->n_decks - 1 || fc->n_decks == 0){
             /// realloc more memory
-            
-            if (fc->n_decks == 0){
-                fc->decks = malloc(sizeof(deck_t));    
-                fc->decks[0].n_cards = 0;
-                fc->decks[0].cards = NULL; 
-            }
+            int last_n_cards = fc->n_decks;
             fc->n_decks = index + 1;
-            fc->decks = realloc(fc->decks, sizeof(deck_t) * fc->n_decks );
-            for (int i=last_n_cards; i<index; i++){
-                fc->decks[index].n_cards = 0;
-                fc->decks[index].cards = NULL;
+            if (last_n_cards == 0){
+                fc->decks = malloc(sizeof(deck_t) * fc->n_decks);    
             }
+            else {   
+                fc->decks = realloc(fc->decks, sizeof(deck_t) * fc->n_decks );    
+            }
+            for (int i=last_n_cards; i<fc->n_decks; i++){
+                    fc->decks[i].n_cards = 0;
+                    fc->decks[i].cards = NULL;
+                }
+            
         }
         printf_d("    Add_future_card(): allocated for fc->decks \n");
-        printf_d("    fc->decks[index].n_cards = %d; index = %d\n", (int)fc->decks[index].n_cards, (int)index);
         /// realloc memory for the deck to hold ptr
         fc->decks[index].n_cards++;
-        if (fc->decks[index].n_cards == 1){
+        printf_d("    fc->decks[index].n_cards = %d; index = %d\n", (int)fc->decks[index].n_cards, (int)index);
+        if ((int)fc->decks[index].n_cards == 1){
             printf_d("    Malloc\n");
             fc->decks[index].cards = malloc(sizeof(card_t *));
         }
