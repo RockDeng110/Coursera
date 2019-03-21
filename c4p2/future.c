@@ -14,7 +14,7 @@
 //   deck_t * decks;
 //   size_t n_decks;
 // };
-#define BLOCK_PRINTF
+// #define BLOCK_PRINTF
 #ifndef BLOCK_PRINTF
 #define printf_d printf
 #else
@@ -23,6 +23,7 @@
 
 void add_future_card(future_cards_t * fc, size_t index, card_t * ptr){
     printf_d("    Add_future_card(): fc->n_decks = %d, index = %d\n", (int)fc->n_decks, (int)index);
+    int last_n_cards = fc->n_decks;
     if (fc != NULL && ptr != NULL){
         if (index > fc->n_decks - 1 || fc->n_decks == 0){
             /// realloc more memory
@@ -32,8 +33,10 @@ void add_future_card(future_cards_t * fc, size_t index, card_t * ptr){
             }
             fc->n_decks = index + 1;
             fc->decks = realloc(fc->decks, sizeof(deck_t) * fc->n_decks );
-            fc->decks[index].n_cards = 0;
-            fc->decks[index].cards = NULL;
+            for (int i=last_n_cards; i<index; i++){
+                fc->decks[index].n_cards = 0;
+                fc->decks[index].cards = NULL;
+            }
         }
         printf_d("    Add_future_card(): allocate for fc->decks \n");
         /// realloc memory for the deck to hold ptr
@@ -57,6 +60,9 @@ void future_cards_from_deck(deck_t * deck, future_cards_t * fc){
     // }
     if (num_cards_deck > num_cards_future){
         num_move_cards = num_cards_future;
+    }
+    else if (num_cards_deck == num_cards_future){
+        num_move_cards = num_cards_deck;
     }
     else{
         num_move_cards = num_cards_deck;

@@ -5,7 +5,7 @@
 #include "eval.h"
 #include "input.h"
 
-#define BLOCK_PRINTF
+// #define BLOCK_PRINTF
 #ifndef BLOCK_PRINTF
 #define printf_d printf
 #else
@@ -15,7 +15,7 @@
 #define MINMUM_CARDS_IN_HAND 5
 
 deck_t * hand_from_string(const char * str, future_cards_t * fc){
-    printf_d("Start hand_from_string.\n");
+    printf_d("Start hand_from_string().\n");
     if (str == NULL || fc == NULL){
         return NULL;
     }
@@ -25,7 +25,7 @@ deck_t * hand_from_string(const char * str, future_cards_t * fc){
     int str_index = 0;
     int future_card_index = 0;
     int get_value_flag = 0;
-    int get_suit_flag = 0;
+    // int get_suit_flag = 0;
     int count_cards = 0;
 
     card_t card;
@@ -45,7 +45,7 @@ deck_t * hand_from_string(const char * str, future_cards_t * fc){
         else {
             if (*str != ' '){
                 card_letter_pair[1] = *str;
-                get_suit_flag = 1;
+                // get_suit_flag = 1;
                 suit_index = str_index;
                 if (suit_index == value_index + 1){ ///< correct format
                     if (card_letter_pair[0] == '?'){  ///< unknow card/future card
@@ -69,7 +69,7 @@ deck_t * hand_from_string(const char * str, future_cards_t * fc){
         str_index++;
     }
 
-    printf_d("End hand_from_string.\n");
+    printf_d("End hand_from_string().\n");
     if (count_cards >= MINMUM_CARDS_IN_HAND){
         return deck;
     }
