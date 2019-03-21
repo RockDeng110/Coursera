@@ -1,6 +1,6 @@
 CFLAGS=-Wall -Werror -std=gnu99 -pedantic -ggdb3
 #CFLAGS=-Werror -std=gnu99 -pedantic -ggdb3
-OBJS=cards.o main.o deck.o eval.o future.o
+OBJS=cards.o main.o deck.o eval.o future.o input.o
 PROGRAM=main
 
 

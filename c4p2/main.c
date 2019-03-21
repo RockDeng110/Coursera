@@ -3,10 +3,56 @@
 #include "deck.h"
 #include "eval.h"
 #include "future.h"
+#include "input.h"
 
 #define CARD_MAX_NUM 52
 
 
+int main(int argc, char ** argv){
+    /// open file
+    FILE * f;
+    f = fopen(argv[1], "r");
+    if (f == NULL){
+        return -1;
+    }
+    printf("Opened file.\n");
+    /// get input from the file
+    deck_t ** deckts;
+    size_t count_hands = 0;
+    /// Init fc
+    future_cards_t * fc = malloc(sizeof(* fc));
+    fc->decks = NULL;
+    fc->n_decks = 0;
+    printf("Ready to read input:\n");
+    deckts = read_input(f, &count_hands, fc);
+    printf("Readed input file.\n");
+    
+    deck_t * d = malloc(sizeof(deck_t));
+    card_t c;
+    d->n_cards = 0;
+    d->cards = NULL;
+    c = card_from_num(11);
+    add_card_to(d, c);
+    c = card_from_num(12);
+    add_card_to(d, c);
+    c = card_from_num(13);
+    add_card_to(d, c);
+    c = card_from_num(14);
+    add_card_to(d, c);
+    printf(" Deck sending cards to future: ");
+    print_hand(d);
+    printf("\n");
+    future_cards_from_deck(d, fc);
+    /// output result
+    for (int i=0; i<count_hands; i++){
+        printf(" hands %d\n", i);
+        print_hand(deckts[i]);
+        printf("\n");
+    }
+}
+
+
+#if 0
 int main(void){
     deck_t * d1_p = malloc(sizeof(deck_t));
     deck_t * d2_p = malloc(sizeof(deck_t));
@@ -64,7 +110,7 @@ int main(void){
     print_hand(d2_p);
     printf("\n");
 }
-
+#endif
 
 #if 0
 extern unsigned * get_match_counts(deck_t * hand);

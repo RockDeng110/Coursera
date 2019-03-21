@@ -1,4 +1,4 @@
-
+#include <stdio.h>
 #include "future.h"
 #include "cards.h"
 #include "deck.h"
@@ -14,17 +14,35 @@
 //   deck_t * decks;
 //   size_t n_decks;
 // };
+#define BLOCK_PRINTF
+#ifndef BLOCK_PRINTF
+#define printf_d printf
+#else
+#define printf_d(...)
+#endif
 
 void add_future_card(future_cards_t * fc, size_t index, card_t * ptr){
+    printf_d("    Add_future_card(): fc->n_decks = %d, index = %d\n", (int)fc->n_decks, (int)index);
     if (fc != NULL && ptr != NULL){
         if (index > fc->n_decks - 1 || fc->n_decks == 0){
             /// realloc more memory
+            
+            if (fc->n_decks == 0){
+                fc->decks = malloc(sizeof(deck_t));     
+            }
             fc->n_decks = index + 1;
             fc->decks = realloc(fc->decks, sizeof(deck_t) * fc->n_decks );
+            fc->decks[index].n_cards = 0;
+            fc->decks[index].cards = NULL;
         }
+        printf_d("    Add_future_card(): allocate for fc->decks \n");
         /// realloc memory for the deck to hold ptr
-        fc->decks[index].n_cards++;
-        fc->decks[index].cards = realloc(fc->decks[index].cards,  fc->decks[index].n_cards * sizeof(card_t *));
+        if (fc->decks[index].n_cards++ == 0){
+            fc->decks[index].cards = malloc(sizeof(card_t *));
+        }
+        else {
+            fc->decks[index].cards = realloc(fc->decks[index].cards,  fc->decks[index].n_cards * sizeof(card_t *));
+        }
         fc->decks[index].cards[fc->decks[index].n_cards - 1] = ptr;
     }
 }
@@ -43,6 +61,7 @@ void future_cards_from_deck(deck_t * deck, future_cards_t * fc){
     else{
         num_move_cards = num_cards_deck;
         /// need more cards from deck
+        printf_d(" need more cards.\n");
     }
 
     // int count_cards = 0;
