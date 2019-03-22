@@ -51,7 +51,16 @@ deck_t * hand_from_string(const char * str, future_cards_t * fc){
                     if (card_letter_pair[0] == '?'){  ///< unknow card/future card
                         printf_d("  Futuer card %c%c\n", card_letter_pair[0], card_letter_pair[1]);
                         add_empty_card(deck);
-                        future_card_index = card_letter_pair[1] - '0';
+                        if (*(str + 1) != ' ' && *(str + 1) != '\n'){
+                            printf_d("  Double future characters\n");
+                            future_card_index = (*(str + 1) - '0') * 10 + *str - '0';
+                            str++;
+                            str_index++;
+                        }
+                        else {
+                            future_card_index = *str - '0';
+                        }
+                        
                         printf_d("  Future card index = %d\n", future_card_index);
                         add_future_card(fc, future_card_index, deck->cards[deck->n_cards - 1]);
                     }

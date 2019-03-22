@@ -31,14 +31,10 @@ int main(int argc, char ** argv){
     card_t c;
     d->n_cards = 0;
     d->cards = NULL;
-    c = card_from_num(11);
-    add_card_to(d, c);
-    c = card_from_num(12);
-    add_card_to(d, c);
-    c = card_from_num(13);
-    add_card_to(d, c);
-    c = card_from_num(14);
-    add_card_to(d, c);
+    for (int i=11; i<33; i++){
+        c = card_from_num(i);
+        add_card_to(d, c);
+    }
     printf(" Deck sending cards to future: ");
     print_hand(d);
     printf("\n");
