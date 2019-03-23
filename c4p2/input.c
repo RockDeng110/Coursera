@@ -52,7 +52,7 @@ deck_t * hand_from_string(const char * str, future_cards_t * fc){
     deck_t * deck = malloc(sizeof(* deck));
     deck->cards = malloc(sizeof(deck_t *));
     deck->n_cards = 0;
-    while( *str != '\n'){
+    while( *str != '\0'){
         // printf_d("%2c", *str);
         /// tack value_letter & suit_letter
         if (get_value_flag == 0){
@@ -71,8 +71,8 @@ deck_t * hand_from_string(const char * str, future_cards_t * fc){
                     if (card_letter_pair[0] == '?'){  ///< unknow card/future card
                         printf_d("  Futuer card %c%c\n", card_letter_pair[0], card_letter_pair[1]);
                         add_empty_card(deck);
-                        if (*(str + 1) != ' ' && *(str + 1) != '\n'){
-                            printf_d("  Double future characters\n");
+                        if (*(str + 1) != ' ' && *(str + 1) != '\0'){
+                            printf_d("  ?xx found!\n");
                             if (*str > '9' || *str <'0' || *(str + 1) > '9' || *(str + 1) < '0'){
                                 return NULL;
                             }
@@ -89,6 +89,7 @@ deck_t * hand_from_string(const char * str, future_cards_t * fc){
                         
                         printf_d("  Future card index = %d\n", future_card_index);
                         add_future_card(fc, future_card_index, deck->cards[deck->n_cards - 1]);
+                        
                     }
                     else {
                         if (CheckInvalidValueLetter(card_letter_pair[0])){
@@ -103,6 +104,9 @@ deck_t * hand_from_string(const char * str, future_cards_t * fc){
                     count_cards++;
                     /// reset data
                     get_value_flag = 0;
+                    if (*(str + 1) == '\0'){
+                        break;
+                    }
                 }
             }
         }
@@ -135,6 +139,15 @@ deck_t ** read_input(FILE * f, size_t * n_hands, future_cards_t * fc){
     size_t len = 0;
     ssize_t nread;
     while ((nread = getline(&line, &len, f)) != -1){
+        for (int i=nread-1; i>=0; i--){
+            if (line[i] == '\n' || line[i] == ' '){
+                line[i] = '\0';
+            }
+            else {
+                break;
+            }
+        }
+        printf_d("=== Before hand_from_string() line = %s\n", line);
         if ((deck = hand_from_string(line, fc)) != NULL){
             count_hands++;
             deck_ts = realloc(deck_ts, sizeof(* deck_ts) * count_hands);
