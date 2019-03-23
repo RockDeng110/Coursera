@@ -14,6 +14,26 @@
 
 #define MINMUM_CARDS_IN_HAND 5
 
+int CheckInvalidValueLetter(char v){
+    if ((v != '2') &&  (v != '3') &&  (v != '4') &&  (v != '5') &&  (v != '6')
+    &&  (v != '7') &&  (v != '8') &&  (v != '9') &&  (v != '0') &&  (v != 'J')
+    &&  (v != 'Q') &&  (v != 'K') &&  (v != 'A')){
+        return 1;
+    }
+    else {
+        return 0;
+    }    
+}
+
+int CheckInvalidSuitLetter(char s){
+    if ((s != 's') && (s != 'h') && (s != 'd') && (s != 'c')){
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
 deck_t * hand_from_string(const char * str, future_cards_t * fc){
     printf_d("Start hand_from_string().\n");
     if (str == NULL || fc == NULL){
@@ -53,11 +73,17 @@ deck_t * hand_from_string(const char * str, future_cards_t * fc){
                         add_empty_card(deck);
                         if (*(str + 1) != ' ' && *(str + 1) != '\n'){
                             printf_d("  Double future characters\n");
-                            future_card_index = (*(str + 1) - '0') * 10 + *str - '0';
+                            if (*str > '9' || *str <'0' || *(str + 1) > '9' || *(str + 1) < '0'){
+                                return NULL;
+                            }
+                            future_card_index = (*(str) - '0') * 10 + *(str + 1) - '0';
                             str++;
                             str_index++;
                         }
                         else {
+                            if (*str > '9' || *str <'0'){
+                                return NULL;
+                            }
                             future_card_index = *str - '0';
                         }
                         
@@ -65,6 +91,12 @@ deck_t * hand_from_string(const char * str, future_cards_t * fc){
                         add_future_card(fc, future_card_index, deck->cards[deck->n_cards - 1]);
                     }
                     else {
+                        if (CheckInvalidValueLetter(card_letter_pair[0])){
+                            return NULL;
+                        }
+                        if (CheckInvalidSuitLetter(card_letter_pair[1])){
+                            return NULL;
+                        }
                         card = card_from_letters(card_letter_pair[0], card_letter_pair[1]);
                         add_card_to(deck, card);
                     }
