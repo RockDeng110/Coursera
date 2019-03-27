@@ -8,15 +8,23 @@
 #include "future.h"
 #include "input.h"
 
+// #define BLOCK_PRINTF
+#ifndef BLOCK_PRINTF
+#define printf_d printf
+#else
+#define printf_d(...)
+#endif
 
 int PrintResult(int * array, int size){
     int sum_rounds = 0;
     float rate = 0;
     for (int i=0; i<size; i++){
         sum_rounds += array[i];
+        printf_d("array[%d] = %d\n", i, array[i]);
     }
+    printf_d("sum_rounds = %d; array_size = %d\n", sum_rounds, size);
     for (int i=0; i<size-1; i++){
-        rate = array[i] / sum_rounds;
+        rate = (float)array[i] / sum_rounds;
         printf("Hand %d won %d / %d times (%.2f%%)\n", i, array[i], sum_rounds, rate);
     }
     printf("And there wrer %u ties\n", array[size-1]);
@@ -48,6 +56,7 @@ int main(int argc, char ** argv) {
             return EXIT_FAILURE;
         }
     }
+    printf_d("Opend file: %s\n", argv[1]);
     
     deck_t ** deckts;
     size_t count_hands = 0;
@@ -55,21 +64,39 @@ int main(int argc, char ** argv) {
     fc->decks = NULL;
     fc->n_decks = 0;
     deckts = read_input(f, &count_hands, fc);
+    printf_d("Completed read_input(). count_hands = %zu\n", count_hands);
     /// 3, Create a deck with the remaining cards.
     deck_t * deck_r = malloc(sizeof(* deck_r));
     deck_r->n_cards = 0;
     deck_r->cards = NULL;
     deck_r = build_remaining_deck(deckts, count_hands);
+    printf_d("Completed build_remaining_deck()\n");
+    print_hand(deck_r);
+    printf_d("\n\n");
     /// 4, Create an array to count how many times each hand wins
     int win_array_size = count_hands + 1;
     int * win_array = malloc(sizeof(* win_array) * win_array_size);
+    for (int i=0; i<win_array_size; i++){
+        win_array[i] = 0;
+    }
 
     /// 5, Do each monte carlo trial
+    printf_d("Game start:\n");
     for (int i=0; i<trial_times; i++){
+        printf_d("Round %d\n", i);
         /// shuffle the deck of remaining cards
         shuffle(deck_r);
+        printf_d("Shuffled...\n");
+        print_hand(deck_r);
+        printf_d("\n");
         /// assign unknown cards from the shuffled deck
         future_cards_from_deck(deck_r, fc);
+        printf_d("Assign unknown cards. decks: \n");
+        for (int i=0; i<count_hands; i++){
+            print_hand(deckts[i]);
+            printf_d("\n");
+        }
+        printf_d("\n");
         /// use compare_hands to figure out which hand won.
         // qsort(deckts, count_hands, sizeof(*deckts), compare_hands);
         int maxvalue_index = 0;
@@ -81,6 +108,13 @@ int main(int argc, char ** argv) {
             }
             
         }
+        printf_d("Sord completed. maxvalue_index = %d; last_maxvalue_index = %d \n", maxvalue_index, last_maxvalue_index);
+        for (int i=0; i<count_hands; i++){
+            printf_d("  Hands %d :\n", i);
+            print_hand(deckts[i]);
+            printf_d("\n");
+        }
+        printf_d("\n");
         /// Increment the win count for the winning hand.
         if (last_maxvalue_index != maxvalue_index){
             int result = compare_hands(deckts[maxvalue_index], deckts[last_maxvalue_index]);
@@ -91,11 +125,15 @@ int main(int argc, char ** argv) {
                 win_array[win_array_size - 1]++;
             }
         } 
-        // int result;
-        // result = compare_hands(deckts[count_hands - 1], deckts[count_hands - 2]);
-        // if (result > 0) {
-
-        // }
+        else {
+            win_array[0]++;
+        }
+        printf_d("Wins calculate completed:\n");
+        for (int i=0; i<win_array_size; i++){
+            printf_d("  win_array[%d] = %d", i, win_array[i]);
+        }
+        printf_d("\n");
+        
     }
     /// print result and free memory.
     
