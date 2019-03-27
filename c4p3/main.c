@@ -141,10 +141,12 @@ int main(int argc, char ** argv) {
     for (int i=0; i<fc->n_decks; i++){
         free_deck(&(fc->decks[i]));
     }
+    free(fc->decks);
     free(fc);
     for (int i=0; i<count_hands; i++){
         free_deck(deckts[i]);
     }
+    free(deckts);
     free_deck(deck_r);
     free(win_array);
     fclose(f);
