@@ -9,6 +9,20 @@
 #include "input.h"
 
 
+int PrintResult(int * array, int size){
+    int sum_rounds = 0;
+    float rate = 0;
+    for (int i=0; i<size; i++){
+        sum_rounds += array[i];
+    }
+    for (int i=0; i<size-1; i++){
+        rate = array[i] / sum_rounds;
+        printf("Hand %d won %d / %d times (%.2f%%)\n", i, array[i], sum_rounds, rate);
+    }
+    printf("And there wrer %u ties\n", array[size-1]);
+
+    return 0;
+}
 
 int main(int argc, char ** argv) {
   //YOUR CODE GOES HERE
@@ -57,25 +71,44 @@ int main(int argc, char ** argv) {
         /// assign unknown cards from the shuffled deck
         future_cards_from_deck(deck_r, fc);
         /// use compare_hands to figure out which hand won.
-        for (int i=0; i<count_hands-2; i++){
-            for (int j=i+1; j<count_hands-1; j++){
-                int compare_result = compare_hands(deckts[i], deckts[j]);
-                if (compare_result > 0){
-                    win_array[i]++;
-                }
-                else if (compare_result < 0){
-                    win_array[j]++;
-                }
-                else{
-                    win_array[count_hands]++;
-                }
+        // qsort(deckts, count_hands, sizeof(*deckts), compare_hands);
+        int maxvalue_index = 0;
+        int last_maxvalue_index = 0;
+        for (int i=1; i<count_hands; i++){
+            if (compare_hands(deckts[maxvalue_index], deckts[i]) <= 0){
+                last_maxvalue_index = maxvalue_index;
+                maxvalue_index = i;
             }
+            
         }
         /// Increment the win count for the winning hand.
+        if (last_maxvalue_index != maxvalue_index){
+            int result = compare_hands(deckts[maxvalue_index], deckts[last_maxvalue_index]);
+            if (result > 0){
+                win_array[maxvalue_index]++;
+            }
+            else {
+                win_array[win_array_size - 1]++;
+            }
+        } 
+        // int result;
+        // result = compare_hands(deckts[count_hands - 1], deckts[count_hands - 2]);
+        // if (result > 0) {
+
+        // }
     }
     /// print result and free memory.
-
+    
+    PrintResult(win_array, win_array_size);
+    for (int i=0; i<fc->n_decks; i++){
+        free_deck(&(fc->decks[i]));
+    }
     free(fc);
+    for (int i=0; i<count_hands; i++){
+        free_deck(deckts[i]);
+    }
     free_deck(deck_r);
+    free(win_array);
+    fclose(f);
   return EXIT_SUCCESS;
 }
