@@ -450,7 +450,7 @@ hand_eval_t build_hand_from_match(deck_t * hand,
 
   }
 
-
+  free(match_counts);
 
   return ans;
 }

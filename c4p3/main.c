@@ -66,9 +66,10 @@ int main(int argc, char ** argv) {
     deckts = read_input(f, &count_hands, fc);
     printf_d("Completed read_input(). count_hands = %zu\n", count_hands);
     /// 3, Create a deck with the remaining cards.
-    deck_t * deck_r = malloc(sizeof(* deck_r));
-    deck_r->n_cards = 0;
-    deck_r->cards = NULL;
+    deck_t * deck_r;
+    // deck_t * deck_r = malloc(sizeof(* deck_r));
+    // deck_r->n_cards = 0;
+    // deck_r->cards = NULL;
     deck_r = build_remaining_deck(deckts, count_hands);
     printf_d("Completed build_remaining_deck()\n");
     print_hand(deck_r);
@@ -138,11 +139,13 @@ int main(int argc, char ** argv) {
     /// print result and free memory.
     
     PrintResult(win_array, win_array_size);
+    /// free fc
     for (int i=0; i<fc->n_decks; i++){
-        free_deck(&(fc->decks[i]));
+        free(fc->decks[i].cards);
     }
     free(fc->decks);
     free(fc);
+    /// free deckts
     for (int i=0; i<count_hands; i++){
         free_deck(deckts[i]);
     }
