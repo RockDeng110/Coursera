@@ -50,8 +50,11 @@ int card_ptr_comp(const void * vp1, const void * vp2) {
   #if debug
   printf(">>>>into card_ptr_comp\n");
   #endif
+  // const card_t * const * p1 = vp1;
+  // const card_t * const * p2 = vp2;
   const card_t * const * p1 = vp1;
   const card_t * const * p2 = vp2;
+  // printf(" p1.s = %d, p1.c = %d; p2.s = %d, p2.v = %d\n", (*p1)->suit, (*p1)->value, (*p2)->suit, (*p2)->value);
   assert_card_valid(**p1);
   assert_card_valid(**p2);
   if ((*p1)->value > (*p2)->value){
@@ -460,8 +463,8 @@ int compare_hands(deck_t * hand1, deck_t * hand2) {
   #if debug
   printf(">>>>into compare_hands().\n");
   #endif
-  qsort(hand1->cards, hand1->n_cards, sizeof(card_t), card_ptr_comp);
-  qsort(hand2->cards, hand2->n_cards, sizeof(card_t), card_ptr_comp);
+  qsort(hand1->cards, hand1->n_cards, sizeof(card_t *), card_ptr_comp);
+  qsort(hand2->cards, hand2->n_cards, sizeof(card_t *), card_ptr_comp);
 
   hand_eval_t hand1_eval;
   hand_eval_t hand2_eval;

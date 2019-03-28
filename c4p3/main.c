@@ -103,6 +103,13 @@ int main(int argc, char ** argv) {
         int maxvalue_index = 0;
         int last_maxvalue_index = 0;
         for (int i=1; i<count_hands; i++){
+            printf_d("Compare hands, round %d\n", i);
+            printf_d("hand 1: index = %d\n", maxvalue_index);
+            print_hand(deckts[maxvalue_index]);
+            printf_d("\n");
+            printf_d("hand 2: index = %d\n", i);
+            print_hand(deckts[i]);
+            printf_d("\n");
             if (compare_hands(deckts[maxvalue_index], deckts[i]) <= 0){
                 last_maxvalue_index = maxvalue_index;
                 maxvalue_index = i;

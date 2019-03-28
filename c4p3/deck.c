@@ -76,7 +76,7 @@ void add_card_to(deck_t * deck, card_t c){
     card_t * card = malloc(x);
     memcpy(card, &c, x);
     deck->n_cards++;
-    deck->cards = realloc(deck->cards, (deck->n_cards) * sizeof(card));
+    deck->cards = realloc(deck->cards, (deck->n_cards) * sizeof(card_t *));
     deck->cards[deck->n_cards -1] = card;
   }
 }
