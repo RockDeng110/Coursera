@@ -18,7 +18,7 @@ unsigned * get_match_counts(deck_t * hand){
   int matched_count = 1;
   // int value_behind_lastest_card = -1;
   /// fisrt, allocate memory for this matched couts array.
-  unsigned * matched_counts_array = malloc(sizeof(unsigned) * hand->n_cards);
+  unsigned * matched_counts_array = malloc(sizeof(* matched_counts_array) * hand->n_cards);
   /// second, analyze hand and calculate each member of the array.
   for (int i=0; i<hand->n_cards; i++){
     if (i < hand->n_cards -1){
@@ -325,7 +325,7 @@ hand_eval_t build_hand_from_match(deck_t * hand,
   ans.ranking = what;
   unsigned n_cards = hand->n_cards;
   card_t * first_card = *(hand->cards + idx);
-  unsigned * match_counts = get_match_counts(hand);
+  unsigned * match_counts;
 
   if (what == STRAIGHT_FLUSH){
     ans.cards[0] = first_card;
@@ -362,7 +362,9 @@ hand_eval_t build_hand_from_match(deck_t * hand,
   }
   else if (what == FULL_HOUSE){
     ssize_t second_pair_idx;
+    match_counts = get_match_counts(hand);
     second_pair_idx = find_secondary_pair(hand, match_counts, idx);
+    free(match_counts);
     ans.cards[0] = *(hand->cards + idx);
     ans.cards[1] = *(hand->cards + idx + 1);
     ans.cards[2] = *(hand->cards + idx + 2);
@@ -413,7 +415,9 @@ hand_eval_t build_hand_from_match(deck_t * hand,
   }
   else if (what == TWO_PAIR){
     ssize_t second_pair_idx;
+    match_counts = get_match_counts(hand);
     second_pair_idx = find_secondary_pair(hand, match_counts, idx);
+    free(match_counts);
     ans.cards[0] = *(hand->cards + idx);
     ans.cards[1] = *(hand->cards + idx + 1);
     ans.cards[2] = *(hand->cards + second_pair_idx);
@@ -453,7 +457,6 @@ hand_eval_t build_hand_from_match(deck_t * hand,
 
   }
 
-  free(match_counts);
 
   return ans;
 }
