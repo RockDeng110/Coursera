@@ -8,7 +8,7 @@
 #include "future.h"
 #include "input.h"
 
-// #define BLOCK_PRINTF
+#define BLOCK_PRINTF
 #ifndef BLOCK_PRINTF
 #define printf_d printf
 #else
@@ -24,7 +24,7 @@ int PrintResult(int * array, int size){
     }
     printf_d("sum_rounds = %d; array_size = %d\n", sum_rounds, size);
     for (int i=0; i<size-1; i++){
-        rate = (float)array[i] / sum_rounds;
+        rate = (float)array[i] / sum_rounds * 100;
         printf("Hand %d won %d / %d times (%.2f%%)\n", i, array[i], sum_rounds, rate);
     }
     printf("And there wrer %u ties\n", array[size-1]);
@@ -72,7 +72,7 @@ int main(int argc, char ** argv) {
     // deck_r->cards = NULL;
     deck_r = build_remaining_deck(deckts, count_hands);
     printf_d("Completed build_remaining_deck()\n");
-    print_hand(deck_r);
+    // print_hand(deck_r);
     printf_d("\n\n");
     /// 4, Create an array to count how many times each hand wins
     int win_array_size = count_hands + 1;
@@ -88,13 +88,13 @@ int main(int argc, char ** argv) {
         /// shuffle the deck of remaining cards
         shuffle(deck_r);
         printf_d("Shuffled...\n");
-        print_hand(deck_r);
+        // print_hand(deck_r);
         printf_d("\n");
         /// assign unknown cards from the shuffled deck
         future_cards_from_deck(deck_r, fc);
         printf_d("Assign unknown cards. decks: \n");
         for (int i=0; i<count_hands; i++){
-            print_hand(deckts[i]);
+            // print_hand(deckts[i]);
             printf_d("\n");
         }
         printf_d("\n");
@@ -105,10 +105,10 @@ int main(int argc, char ** argv) {
         for (int i=1; i<count_hands; i++){
             printf_d("Compare hands, round %d\n", i);
             printf_d("hand 1: index = %d\n", maxvalue_index);
-            print_hand(deckts[maxvalue_index]);
+            // print_hand(deckts[maxvalue_index]);
             printf_d("\n");
             printf_d("hand 2: index = %d\n", i);
-            print_hand(deckts[i]);
+            // print_hand(deckts[i]);
             printf_d("\n");
             if (compare_hands(deckts[maxvalue_index], deckts[i]) <= 0){
                 last_maxvalue_index = maxvalue_index;
@@ -119,7 +119,7 @@ int main(int argc, char ** argv) {
         printf_d("Sord completed. maxvalue_index = %d; last_maxvalue_index = %d \n", maxvalue_index, last_maxvalue_index);
         for (int i=0; i<count_hands; i++){
             printf_d("  Hands %d :\n", i);
-            print_hand(deckts[i]);
+            // print_hand(deckts[i]);
             printf_d("\n");
         }
         printf_d("\n");

@@ -14,7 +14,7 @@
 //   deck_t * decks;
 //   size_t n_decks;
 // };
-// #define BLOCK_PRINTF
+#define BLOCK_PRINTF
 #ifndef BLOCK_PRINTF
 #define printf_d printf
 #else

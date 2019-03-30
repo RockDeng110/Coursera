@@ -5,7 +5,7 @@
 #include "eval.h"
 #include "input.h"
 
-// #define BLOCK_PRINTF
+#define BLOCK_PRINTF
 #ifndef BLOCK_PRINTF
 #define printf_d printf
 #else
@@ -39,7 +39,7 @@ deck_t * hand_from_string(const char * str, future_cards_t * fc){
     if (str == NULL || fc == NULL){
         return NULL;
     }
-    char card_letter_pair[2];
+    char card_letter_pair[2] = {0};
     int value_index = 0;
     int suit_index = 0;
     int str_index = 0;
