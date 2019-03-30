@@ -300,7 +300,8 @@ int is_straight_at(deck_t * hand, size_t index, suit_t fs) {
       return 1;
   }
   else{
-    if (index ==0){
+    // if (index ==0){
+      if ((hand->cards[index]->value == VALUE_ACE) && (fs == NUM_SUITS || hand->cards[index]->suit == fs)){
       if (is_n_length_straight_at(hand, n_cards-4, fs, 4)){
         if (has_a_2_straight(hand, fs)){
           return -1;
